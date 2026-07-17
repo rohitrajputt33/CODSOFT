@@ -13,10 +13,11 @@ public class SMSApp {
         while (!exit) {
             System.out.println("\nMenu:");
             System.out.println("1. Add a Student");
-            System.out.println("2. Remove a Student");
-            System.out.println("3. Search for a Student");
-            System.out.println("4. Display All Students");
-            System.out.println("5. Exit");
+            System.out.println("2. Edit a Student's Information");
+            System.out.println("3. Remove a Student");
+            System.out.println("4. Search for a Student");
+            System.out.println("5. Display All Students");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
 
             String choice = scanner.nextLine();
@@ -26,19 +27,22 @@ public class SMSApp {
                     addStudentMenu(scanner, sms);
                     break;
                 case "2":
+                    editStudentMenu(scanner, sms);
+                    break;
+                case "3":
                     System.out.print("Enter the roll number of the student to remove: ");
                     String rollToRemove = scanner.nextLine().trim();
                     sms.removeStudent(rollToRemove);
                     break;
-                case "3":
+                case "4":
                     System.out.print("Enter the roll number of the student to search: ");
                     String rollToSearch = scanner.nextLine().trim();
                     sms.searchStudent(rollToSearch);
                     break;
-                case "4":
+                case "5":
                     sms.displayAllStudents();
                     break;
-                case "5":
+                case "6":
                     System.out.println("Exiting the application. Goodbye!");
                     exit = true;
                     break;
@@ -66,5 +70,25 @@ public class SMSApp {
 
         Student student = new Student(name, rollNumber, grade);
         sms.addStudent(student);
+    }
+
+    private static void editStudentMenu(Scanner scanner, StudentManagementSystem sms) {
+        System.out.print("Enter the roll number of the student to edit: ");
+        String rollNumber = scanner.nextLine().trim();
+        Student student = sms.getStudent(rollNumber);
+        
+        if (student == null) {
+            System.out.println("Error: Student with roll number '" + rollNumber + "' not found.");
+            return;
+        }
+
+        System.out.println("Editing student: " + student.getName() + " (Roll No: " + student.getRollNumber() + ")");
+        System.out.print("Enter new name (press Enter to keep '" + student.getName() + "'): ");
+        String name = scanner.nextLine().trim();
+
+        System.out.print("Enter new grade (press Enter to keep '" + student.getGrade() + "'): ");
+        String grade = scanner.nextLine().trim();
+
+        sms.editStudent(rollNumber, name, grade);
     }
 }

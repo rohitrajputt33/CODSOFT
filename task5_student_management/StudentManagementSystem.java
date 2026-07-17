@@ -43,6 +43,33 @@ public class StudentManagementSystem {
         }
     }
 
+    public Student getStudent(String rollNumber) {
+        return findStudentByRollNumber(rollNumber);
+    }
+
+    public void editStudent(String rollNumber, String newName, String newGrade) {
+        Student student = findStudentByRollNumber(rollNumber);
+        if (student != null) {
+            boolean updated = false;
+            if (newName != null && !newName.trim().isEmpty()) {
+                student.setName(newName.trim());
+                updated = true;
+            }
+            if (newGrade != null && !newGrade.trim().isEmpty()) {
+                student.setGrade(newGrade.trim());
+                updated = true;
+            }
+            if (updated) {
+                saveStudentsToFile();
+                System.out.println("Student information updated successfully.");
+            } else {
+                System.out.println("No updates provided. Student information unchanged.");
+            }
+        } else {
+            System.out.println("Student not found.");
+        }
+    }
+
     public void displayAllStudents() {
         if (students.isEmpty()) {
             System.out.println("No students found.");
